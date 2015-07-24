@@ -1,0 +1,35 @@
+{
+  "name": "socialengine/unum",
+  "description": "Unum: A simple entity implementation",
+  "keywords": [
+    "entity",
+    "ORM",
+    "Object-Relational Mapping",
+    "value object",
+    "unum",
+    "DAO",
+    "Data Access Object",
+    "Data Mapper"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "SocialEngine Development Team",
+      "email": "support@socialengine.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.7",
+    "socialengine/sniffer-rules": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "SocialEngine\\Unum\\": "src/",
+      "SocialEngine\\Unum\\Tests\\": "tests/"
+    }
+  }
+}
