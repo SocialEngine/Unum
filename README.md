@@ -2,6 +2,15 @@ Unum: A simple entity implementation
 ===========
 
 [![Build Status](https://travis-ci.org/SocialEngine/Unum.svg?branch=master)](https://travis-ci.org/SocialEngine/Unum)
+[![Latest Stable Version](https://poser.pugx.org/socialengine/unum/version.png)](https://packagist.org/packages/socialengine/Unum) [![License](https://poser.pugx.org/socialengine/setup-test-db/license.svg)](https://packagist.org/packages/socialengine/unum)
+
+## Installation
+
+Require this package with composer:
+
+```
+$ composer require socialengine/setup-test-db
+```
 
 ## Usage
 
