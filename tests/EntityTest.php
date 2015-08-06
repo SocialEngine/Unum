@@ -145,4 +145,15 @@ class EntityTest extends TestCase
 
         $this->assertFalse($entity->changedAndEnabled('binaryProp'));
     }
+
+    public function test_is_clean()
+    {
+        $entity = new TestEntity(['testProp' => 'test1', 'test_prop' => 'test2']);
+
+        $this->assertTrue($entity->isClean());
+        
+        $entity->testProp = 'testInfinity';
+
+        $this->assertFalse($entity->isClean());
+    }
 }

@@ -181,6 +181,14 @@ class Entity implements ArrayAccess, Contracts\Entity
     }
 
     /**
+     * @return bool
+     */
+    public function isClean()
+    {
+        return empty($this->propertyDirty);
+    }
+
+    /**
      * @param $key
      * @param $value
      */
