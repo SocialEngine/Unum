@@ -120,12 +120,6 @@ class Entity implements ArrayAccess, Contracts\Entity
     public function fromArray(array $data)
     {
         foreach ($data as $k => $v) {
-            if (!property_exists($this, $k) || in_array($k, $this->propertyBlacklist)) {
-                throw new InvalidArgumentException(sprintf(
-                    '$data key: "%s" was not listed in the allowed properties',
-                    $k
-                ));
-            }
             $this->setProp($k, $v);
         }
 
@@ -188,7 +182,7 @@ class Entity implements ArrayAccess, Contracts\Entity
         return empty($this->propertyDirty);
     }
 
-    /**
+   /**
      * @param $key
      * @param $value
      */
@@ -197,18 +191,28 @@ class Entity implements ArrayAccess, Contracts\Entity
         if (!is_string($key)) {
             throw new InvalidArgumentException('$key must be a string');
         }
-        if (!property_exists($this, $key) || in_array($key, $this->propertyBlacklist)) {
+
+        $methodName = $this->normalizeAccessor($key);
+        $hasAccessor = method_exists($this, $methodName);
+
+        if ((!property_exists($this, $key) || in_array($key, $this->propertyBlacklist))) {
+            if ($hasAccessor) {
+                // let meta property set the actual prop.
+                $this->$methodName($value);
+                return;
+            }
+
             throw new InvalidArgumentException(sprintf(
                 'Key: "%s" is not an allowed property',
                 $key
             ));
         }
 
+
         $this->propertyLoaded[] = $key;
 
         if ($this->getProp($key) !== $value) {
-            $methodName = $this->normalizeAccessor($key);
-            if (method_exists($this, $methodName)) {
+            if ($hasAccessor) {
                 $this->$methodName($value);
             } else {
                 $this->$key = $value;
@@ -223,15 +227,16 @@ class Entity implements ArrayAccess, Contracts\Entity
      */
     protected function getProp($key)
     {
-        if (!in_array($key, $this->propertyLoaded)) {
+        $methodName = $this->normalizeAccessor($key, false);
+        $hasAccessor = method_exists($this, $methodName);
+        if (!in_array($key, $this->propertyLoaded) && !$hasAccessor) {
             throw new InvalidArgumentException(sprintf(
                 'Key: "%s" was not loaded',
                 $key
             ));
         }
-        $methodName = $this->normalizeAccessor($key, false);
 
-        if (method_exists($this, $methodName)) {
+        if ($hasAccessor) {
             return $this->$methodName();
         } else {
             return $this->$key;

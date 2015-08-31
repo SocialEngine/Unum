@@ -17,6 +17,13 @@ class TestEntity extends Entity
     protected $test_prop;
     // @codingStandardsIgnoreEnd
 
+    /**
+     * For accessing from tests
+     *
+     * @var string
+     */
+    const META_PROPERTY = 'This is a meta property';
+
     protected function getGetMethodProp()
     {
         return $this->getMethodProp . ' From Get';
@@ -25,5 +32,15 @@ class TestEntity extends Entity
     protected function setSetMethodProp($value)
     {
         $this->setMethodProp = $value . ' From Set';
+    }
+
+    protected function getCustomMethodProp()
+    {
+        return self::META_PROPERTY;
+    }
+
+    public function setUppercaseTestProp($value)
+    {
+        $this->setProp('testProp', strtoupper($value));
     }
 }

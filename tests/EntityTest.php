@@ -70,6 +70,22 @@ class EntityTest extends TestCase
         $entity->fake = 1;
     }
 
+    public function test_meta_property_get()
+    {
+        $entity = new TestEntity();
+        $this->assertEquals($entity::META_PROPERTY, $entity->customMethodProp);
+    }
+
+    public function test_meta_property_set()
+    {
+        $entity = new TestEntity();
+        $entity->uppercaseTestProp = 'lowercase_test';
+        $this->assertEquals(strtoupper('lowercase_test'), $entity->testProp);
+
+        $entity2 = new TestEntity(['uppercaseTestProp' => 'lowercase_test']);
+        $this->assertEquals(strtoupper('lowercase_test'), $entity->testProp);
+    }
+
     public function test_isset()
     {
         $entity = new TestEntity(['testProp' => 'test1']);

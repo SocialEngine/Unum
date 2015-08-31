@@ -133,6 +133,67 @@ array(0) {
 */
 ```
 
+### Meta Attributes
+
+You can set and get "meta" attributes - ones that do not have attributes directly attached to them.
+
+This is good if you have an entity that stores a `category_id` but does not store the category name
+
+```php
+<?php
+
+require('vendor/autoload.php');
+
+class MyEntity extends \SocialEngine\Unum\Entity
+{
+  protected $category_id;
+  protected $first_name;
+  protected $last_name;
+
+  protected function getCategoryName()
+  {
+    $categoryNamesMap = [
+      1 => 'Awesome'
+    ];
+
+    return $categoryNamesMap[$this->getProp('category_id')];
+  }
+
+  /**
+   * You can also set meta properties
+   */
+  protected function setName($name)
+  {
+    list($firstName, $lastName) = explode(' ', $name, 2);
+
+    $this->fromArray([
+      'first_name' => $firstName,
+      'last_name' => $lastName
+    ]);
+  }
+}
+
+$entity = new MyEntity(['category_id' => 1]);
+var_dump($entity->categoryName);
+/*
+string(7) "Awesome"
+*/
+
+$entity['name'] = 'Duke Orcino';
+var_dump($entity->toArray(true));
+/*
+array(2) {
+  'first_name' =>
+  string(4) "Duke"
+  'last_name' =>
+  string(6) "Orcino"
+}
+*/
+```
+
+The entity above will let you access Meta attributes via the normal syntax. Use build in `setProp` and `getProp` so 
+that you can leverage some of the validation and attribute checking code **Unum** offers you.
+
 ## Code Style
 
 Please follow the following guides and code standards:
