@@ -24,10 +24,10 @@ trait PropertyAsserts
      * Asserts that properties of Entity are loaded.
      *
      * @param  Entity   $entity
-     * @param  string   $properties
+     * @param  array    $properties
      * @param  string   $message
      */
-    public function assertPropertiesLoaded(Entity $entity, $properties, $message = '')
+    public function assertPropertiesLoaded(Entity $entity, array $properties, $message = '')
     {
         array_walk($properties, function ($property) use ($entity, $message) {
             $this->assertPropertyLoaded($entity, $property, $message);
@@ -59,7 +59,7 @@ trait PropertyAsserts
      * @param  array    $properties
      * @param  string   $message
      */
-    public function assertProperties(Entity $entity, $properties = [], $message = '')
+    public function assertProperties(Entity $entity, array $properties, $message = '')
     {
         array_walk($properties, function ($value, $property) use ($entity, $message) {
             $this->assertProperty($entity, $property, $value, $message);
